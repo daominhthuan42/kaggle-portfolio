@@ -1,93 +1,76 @@
-# Sales Forecasting Project
+# 🎶 Predicting the Beats-per-Minute (BPM) of Songs ⏱️
 
-## **Overview**
-This project focuses on forecasting sales for a retailer using historical sales data. The goal is to predict the number of products sold (num_sold) for future dates, enabling better inventory management and business decision-making.
+## 📌 Overview
 
-## **Data Description**
-The dataset consists of historical sales data from different countries, stores, and product types. The key components are:
+Music tempo, measured in **Beats-per-Minute (BPM)**, plays a vital role in shaping how listeners perceive the **mood, genre, and energy** of a track.
+This project is based on the **Kaggle Playground Series - S5E9**, which challenges participants to predict BPM from audio-extracted features.
 
-### **1. Training Data (`train.csv`)**  
-Contains historical sales records used to train the forecasting model. Key columns include:
-- `id`: Unique identifier for each record.
-- `date`: The date when sales were recorded.
-- `country`: The country where sales occurred (e.g., Canada, Finland, Italy, Kenya, Norway, Singapore).
-- `store`: The store type (e.g., Discount Stickers, Stickers for Less, Premium Sticker Mart).
-- `product`: The product type (e.g., Holographic Goose, Kaggle, Kaggle Tiers, Kerneler, Kerneler Dark Mode).
-- `num_sold`: The number of units sold (target variable).
+Competition link: [Playground S5E9 - Predicting the BPM of Songs](https://www.kaggle.com/competitions/playground-series-s5e9)
+Dataset source: [BPM Prediction Challenge](https://www.kaggle.com/datasets/gauravduttakiit/bpm-prediction-challenge)
 
-### **2. Test Data (`test.csv`)**  
-Contains future sales records without the `num_sold` column. The goal is to predict the values for this column.
+**Goal:**
 
-### **3. Sample Submission (`sample_submission.csv`)**  
-Provides the expected submission format with columns `id` and `num_sold`. Predictions will replace the `num_sold` column.
+* Explore audio features that influence song tempo.
+* Build regression models to predict BPM.
+* Provide insights for **music recommendation systems and playlist curation**.
 
-### **4. Supplementary Data**  
-- Includes various factors affecting sales trends:
-  - Day-of-week sales ratios.
-  - GDP per capita adjustments.
-  - Store weights for disaggregating forecasts.
+## 📂 Dataset Information
 
-## **Objective**
-The primary objective of this project is to build an accurate forecasting model that predicts `num_sold` for the test dataset. This involves:
+**Training set:** 524,164 records.
+**Test set:** 174,722 records.
+**Original dataset:** 14,633 samples.
 
-### **1. Understanding Sales Patterns**
-- Analyzing historical sales data to identify trends in:
-  - Seasonality (e.g., weekends).
-  - Store types and country-specific variations.
-  - Product demand changes over time.
+**Target variable:**
 
-### **2. Building a Forecasting Model**
-The model uses advanced data processing techniques such as:
-- **Missing data imputation**: Handling missing values in historical data.
-- **Aggregation and disaggregation**: Modeling total sales and individual store/product sales using weighted distributions.
-- **Ratio-based adjustments**: Incorporating GDP per capita, day-of-week effects, and store-specific influences.
+* `BeatsPerMinute` → Numeric value of track tempo.
 
-### **3. Providing Actionable Insights**
-The final model will help businesses:
-- Optimize inventory management by predicting future demand.
-- Allocate resources effectively across different regions and stores.
-- Make data-driven strategic decisions to maximize sales and profitability.
+### 🔑 Key Features
 
-## **Technologies and Libraries Used**
-The project utilizes several data science and visualization libraries:
-- **Programming Language:** Python
-- **Libraries:** Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Statsmodels
-- **Visualization Tools:** Matplotlib, Seaborn, Plotly
+| Feature                     | Description                             |
+| --------------------------- | --------------------------------------- |
+| `RhythmScore`               | Rhythmic complexity/clarity             |
+| `AudioLoudness`             | Sound intensity in decibels             |
+| `VocalContent`              | Degree of vocal presence                |
+| `AcousticQuality`           | How acoustic/natural the recording is   |
+| `InstrumentalScore`         | Instrumental vs vocal emphasis          |
+| `LivePerformanceLikelihood` | Probability of being a live performance |
+| `MoodScore`                 | Encoded emotional tone of the track     |
+| `TrackDurationMs`           | Duration of the song in milliseconds    |
+| `Energy`                    | Indicator of song intensity             |
 
-### **Fetching External Data (World Bank API)**
-```python
-# Fetch GDP per capita for a specific country and year
-url = f'https://api.worldbank.org/v2/country/{alpha3}/indicator/NY.GDP.PCAP.CD?date={year}&format=json'
-```
+## 🎯 Objectives
 
-## **Project Workflow**
-1. **Data Preprocessing**
-   - Handling missing values and imputing missing sales records.
-   - Normalizing and transforming data for better model performance.
-   - Feature engineering based on sales trends and external factors.
+* Perform **EDA**: analyze feature distributions, correlations, and tempo patterns.
+* **Feature Engineering**: scaling, transformation, derived audio insights.
+* Train and compare regression models:
 
-2. **Exploratory Data Analysis (EDA)**
-   - Visualizing historical sales trends.
-   - Analyzing seasonality and holiday effects.
-   - Identifying correlations between store types, countries, and products.
+  * Linear Regression.
+  * Random Forest.
+  * Gradient Boosting (XGBoost, LightGBM).
+* Evaluate using **RMSE** and cross-validation.
 
-3. **Model Development**
-   - Using time series forecasting techniques.
-   - Aggregating total sales and disaggregating forecasts.
-   - Adjusting predictions using GDP per capita and other external factors.
+## 🛠 Methodology & Tools
 
-4. **Evaluation and Optimization**
-   - Fine-tuning hyperparameters to improve accuracy.
-   - Ensuring robust validation and testing of predictions.
+* **Data Cleaning:** drop ID column, type optimization for efficiency.
+* **EDA & Visualization:** histograms, scatter plots, correlation heatmaps.
+* **Modeling:** baseline linear models → advanced tree-based regressors.
+* **Evaluation:** Root Mean Squared Error (RMSE), model comparison.
 
-5. **Submission Generation**
-   - Formatting predictions according to the `sample_submission.csv` format.
-   - Saving the final submission file:
-   ```python
-   sample_df.to_csv("submission.csv", index=False)
-   print("Submission file created.")
-   ```
+## 📊 Key Insights
 
-## **Conclusion**
-This project aims to improve sales forecasting accuracy, enabling businesses to make informed decisions regarding inventory and resource allocation. By leveraging historical data and advanced forecasting techniques, we enhance predictability and efficiency in retail sales management.
+* **BPM distribution** spans from <60 BPM (slow ballads) to >200 BPM (dance/electronic).
+* **Loudness & Energy** positively correlate with BPM.
+* Tracks with **low vocal content** often show more extreme BPM values.
+* **Acoustic vs electronic balance** influences tempo predictability.
+* Typical track durations cluster around 3–5 minutes, aligning with standard song structures.
 
+## 🚀 Next Steps
+
+* Hyperparameter tuning with Optuna.
+* Ensemble stacking for improved prediction.
+* Deploy BPM predictor as a **music analytics API**.
+
+## 👤 Author
+
+* **Name:** Đào Minh Thuấn.
+* **GitHub:** [daominhthuan42](https://github.com/daominhthuan42)

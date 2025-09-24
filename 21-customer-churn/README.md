@@ -1,74 +1,82 @@
-# 🎶 Predicting the Beats-per-Minute (BPM) of Songs ⏱️
+# 👥 Customer Churn Prediction 🏃‍♂️
 
 ## 📌 Overview
 
-Music tempo, measured in **Beats-per-Minute (BPM)**, plays a vital role in shaping how listeners perceive the **mood, genre, and energy** of a track.
-This project is based on the **Kaggle Playground Series - S5E9**, which challenges participants to predict BPM from audio-extracted features.
+Churn prediction is critical for **telecommunications companies**, where retaining existing customers is far more cost-effective than acquiring new ones.
+This project analyzes customer demographics, subscription details, and billing information to build a **churn prediction model**.
 
-Competition link: [Playground S5E9 - Predicting the BPM of Songs](https://www.kaggle.com/competitions/playground-series-s5e9)
-Dataset source: [BPM Prediction Challenge](https://www.kaggle.com/datasets/gauravduttakiit/bpm-prediction-challenge)
+Dataset link: [Customer Churn Dataset (Kaggle)](https://www.kaggle.com/datasets/rashadrmammadov/customer-churn-dataset)
 
-**Goal:**
+**Goals:**
 
-* Explore audio features that influence song tempo.
-* Build regression models to predict BPM.
-* Provide insights for **music recommendation systems and playlist curation**.
+* Identify factors that drive customer churn.
+* Build ML models to predict churn (`Yes` / `No`).
+* Provide insights to improve retention strategies.
 
 ## 📂 Dataset Information
 
-**Training set:** 524,164 records.
-**Test set:** 174,722 records.
-**Original dataset:** 14,633 samples.
-
+**Size:** 5,880 records, 20 features.
 **Target variable:**
 
-* `BeatsPerMinute` → Numeric value of track tempo.
+* `Churn` → Yes = churned, No = retained.
 
 ### 🔑 Key Features
 
-| Feature                     | Description                             |
-| --------------------------- | --------------------------------------- |
-| `RhythmScore`               | Rhythmic complexity/clarity             |
-| `AudioLoudness`             | Sound intensity in decibels             |
-| `VocalContent`              | Degree of vocal presence                |
-| `AcousticQuality`           | How acoustic/natural the recording is   |
-| `InstrumentalScore`         | Instrumental vs vocal emphasis          |
-| `LivePerformanceLikelihood` | Probability of being a live performance |
-| `MoodScore`                 | Encoded emotional tone of the track     |
-| `TrackDurationMs`           | Duration of the song in milliseconds    |
-| `Energy`                    | Indicator of song intensity             |
+| Feature                                                             | Description                                                       |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `customerID`                                                        | Unique customer identifier                                        |
+| `gender`                                                            | Male / Female                                                     |
+| `SeniorCitizen`                                                     | Whether the customer is a senior (1 = Yes, 0 = No)                |
+| `Partner`                                                           | Has a partner (Yes/No)                                            |
+| `Dependents`                                                        | Has dependents (Yes/No)                                           |
+| `tenure`                                                            | Months stayed with the company                                    |
+| `PhoneService`                                                      | Phone service (Yes/No)                                            |
+| `MultipleLines`                                                     | Multiple phone lines                                              |
+| `InternetService`                                                   | DSL, Fiber optic, or None                                         |
+| `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `TechSupport` | Add-on services (Yes/No)                                          |
+| `StreamingTV`, `StreamingMovies`                                    | Entertainment services                                            |
+| `Contract`                                                          | Month-to-month, One year, Two year                                |
+| `PaperlessBilling`                                                  | Yes/No                                                            |
+| `PaymentMethod`                                                     | Payment type (Credit card, Bank transfer, Electronic check, etc.) |
+| `MonthlyCharges`                                                    | Monthly bill                                                      |
+| `TotalCharges`                                                      | Total charges over tenure                                         |
+| `Churn`                                                             | Target variable                                                   |
 
 ## 🎯 Objectives
 
-* Perform **EDA**: analyze feature distributions, correlations, and tempo patterns.
-* **Feature Engineering**: scaling, transformation, derived audio insights.
-* Train and compare regression models:
+* Perform **EDA**: analyze demographics, contracts, billing patterns.
+* Engineer meaningful features from tenure, services, and billing.
+* Train classification models:
 
-  * Linear Regression.
+  * Logistic Regression.
   * Random Forest.
-  * Gradient Boosting (XGBoost, LightGBM).
-* Evaluate using **RMSE** and cross-validation.
+  * XGBoost.
+* Evaluate using metrics focused on churn prediction:
+
+  * ROC-AUC.
+  * Precision, Recall, F1-score.
 
 ## 🛠 Methodology & Tools
 
-* **Data Cleaning:** drop ID column, type optimization for efficiency.
-* **EDA & Visualization:** histograms, scatter plots, correlation heatmaps.
-* **Modeling:** baseline linear models → advanced tree-based regressors.
-* **Evaluation:** Root Mean Squared Error (RMSE), model comparison.
+* **Data Cleaning:** handle missing values, convert `TotalCharges`.
+* **EDA & Visualization:** churn distribution, service correlations, billing trends.
+* **Feature Engineering:** categorical encoding, scaling, tenure buckets.
+* **Modeling:** baseline logistic regression → tree-based ensemble methods.
+* **Evaluation:** focus on Recall (catching churners) + ROC-AUC.
 
 ## 📊 Key Insights
 
-* **BPM distribution** spans from <60 BPM (slow ballads) to >200 BPM (dance/electronic).
-* **Loudness & Energy** positively correlate with BPM.
-* Tracks with **low vocal content** often show more extreme BPM values.
-* **Acoustic vs electronic balance** influences tempo predictability.
-* Typical track durations cluster around 3–5 minutes, aligning with standard song structures.
+* **Contract type** is a strong churn driver → month-to-month customers churn more.
+* **Electronic check** payment method has the highest churn rate.
+* Customers without **value-added services** (e.g., OnlineSecurity, TechSupport) are more likely to churn.
+* Higher **MonthlyCharges** correlates with higher churn probability.
+* **Senior citizens** have slightly higher churn tendency.
 
 ## 🚀 Next Steps
 
-* Hyperparameter tuning with Optuna.
-* Ensemble stacking for improved prediction.
-* Deploy BPM predictor as a **music analytics API**.
+* Apply **SMOTE or class weighting** for class imbalance.
+* Hyperparameter tuning with **Optuna**.
+* Provide **business recommendations** for retention.
 
 ## 👤 Author
 
