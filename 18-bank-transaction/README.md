@@ -62,7 +62,7 @@ Dataset link: [Bank Transaction Dataset for Fraud Detection (Kaggle)](https://ww
 ## 🚀 Next Steps
 
 * Apply **ensemble anomaly scoring** combining K-Means, DBSCAN, Isolation Forest.
-* Extend to **time-series anomaly detection**.
+* Extend to **LOF**.
 
 ## 👤 Author
 
