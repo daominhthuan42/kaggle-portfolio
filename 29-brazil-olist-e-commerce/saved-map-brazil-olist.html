@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_7d10f727981b6cbd6c120ca54742be7d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_7d10f727981b6cbd6c120ca54742be7d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_7d10f727981b6cbd6c120ca54742be7d = L.map(
+                "map_7d10f727981b6cbd6c120ca54742be7d",
+                {
+                    center: [-9.0478679, -70.5264976],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 5,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_47efe756b68f6646a4aaaadecaed9fe9 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_47efe756b68f6646a4aaaadecaed9fe9.addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var marker_c6870abd0d261574bcea90ce6c7174ee = L.marker(
+                [-9.0478679, -70.5264976],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_6166c6eb01cb61fed31b74e4274e3938 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_c6870abd0d261574bcea90ce6c7174ee.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Acre<br>
+            <b>Sigla:</b> AC<br>
+            <b>Number Order:</b> 80<br>
+            <b>GMV:</b> $19,575.33
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c6870abd0d261574bcea90ce6c7174ee.setIcon(icon_6166c6eb01cb61fed31b74e4274e3938);
+            
+    
+            var marker_bc2753e799cfff3af8459d08a00e16c6 = L.marker(
+                [-9.6611661, -36.6502426],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_af98a382179ddaca1725652702804c17 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_bc2753e799cfff3af8459d08a00e16c6.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Alagoas<br>
+            <b>Sigla:</b> AL<br>
+            <b>Number Order:</b> 397<br>
+            <b>GMV:</b> $94,172.49
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_bc2753e799cfff3af8459d08a00e16c6.setIcon(icon_af98a382179ddaca1725652702804c17);
+            
+    
+            var marker_353966b798fe7fecc30c9687f1e8d90a = L.marker(
+                [0.1865944, -50.7348369],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_2e00738ee7def1f75e82ae5d32bb6868 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_353966b798fe7fecc30c9687f1e8d90a.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Amazonas<br>
+            <b>Sigla:</b> AM<br>
+            <b>Number Order:</b> 145<br>
+            <b>GMV:</b> $27,585.47
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_353966b798fe7fecc30c9687f1e8d90a.setIcon(icon_2e00738ee7def1f75e82ae5d32bb6868);
+            
+    
+            var marker_470f031855ed48fb107c029945cf6256 = L.marker(
+                [1.3545442, -51.9161977],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_a8acbf5a60aa3d397466f68cd1b4502d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_470f031855ed48fb107c029945cf6256.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Amapá<br>
+            <b>Sigla:</b> AP<br>
+            <b>Number Order:</b> 67<br>
+            <b>GMV:</b> $16,141.81
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_470f031855ed48fb107c029945cf6256.setIcon(icon_a8acbf5a60aa3d397466f68cd1b4502d);
+            
+    
+            var marker_1d05dfd52844bfb4f23d9284fb55c50d = L.marker(
+                [-12.285251, -41.9294776],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_28b52c8a33c44480584567eeec2c722d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_1d05dfd52844bfb4f23d9284fb55c50d.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Bahia<br>
+            <b>Sigla:</b> BA<br>
+            <b>Number Order:</b> 3242<br>
+            <b>GMV:</b> $587,373.55
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1d05dfd52844bfb4f23d9284fb55c50d.setIcon(icon_28b52c8a33c44480584567eeec2c722d);
+            
+    
+            var marker_89af3d2a917fb16acba0b40bcb032d38 = L.marker(
+                [-5.3264703, -39.7156073],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_261f5d186a0ae98fedddacfa780febcd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_89af3d2a917fb16acba0b40bcb032d38.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Ceará<br>
+            <b>Sigla:</b> CE<br>
+            <b>Number Order:</b> 1277<br>
+            <b>GMV:</b> $266,065.24
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_89af3d2a917fb16acba0b40bcb032d38.setIcon(icon_261f5d186a0ae98fedddacfa780febcd);
+            
+    
+            var marker_90b08296d623079b4e8bebcb3bf01862 = L.marker(
+                [-15.7754462, -47.7970891],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_f0591ab0a35e4b0f1555f940f6152c05 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_90b08296d623079b4e8bebcb3bf01862.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Distrito Federal<br>
+            <b>Sigla:</b> DF<br>
+            <b>Number Order:</b> 2080<br>
+            <b>GMV:</b> $346,123.35
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_90b08296d623079b4e8bebcb3bf01862.setIcon(icon_f0591ab0a35e4b0f1555f940f6152c05);
+            
+    
+            var marker_419fae9749a98e8bc16f18cd9286180a = L.marker(
+                [-19.5687682, -40.1721991],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_4cec1f5fb42e0e062543b59a05cd3f80 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_419fae9749a98e8bc16f18cd9286180a.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Espírito Santo<br>
+            <b>Sigla:</b> ES<br>
+            <b>Number Order:</b> 1993<br>
+            <b>GMV:</b> $317,419.85
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_419fae9749a98e8bc16f18cd9286180a.setIcon(icon_4cec1f5fb42e0e062543b59a05cd3f80);
+            
+    
+            var marker_ff55d53e03e1ada351409f172d794d0e = L.marker(
+                [-15.9323662, -50.1392928],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_fbc6624d55ad18202632ba59f274be7d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_ff55d53e03e1ada351409f172d794d0e.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Goiás<br>
+            <b>Sigla:</b> GO<br>
+            <b>Number Order:</b> 1955<br>
+            <b>GMV:</b> $334,062.97
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ff55d53e03e1ada351409f172d794d0e.setIcon(icon_fbc6624d55ad18202632ba59f274be7d);
+            
+    
+            var marker_388b4cb5520863a747e2ce7b46d5736c = L.marker(
+                [-5.2085503, -45.3930262],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_c548cea2a8bbab6d988415640fbf8e69 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_388b4cb5520863a747e2ce7b46d5736c.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Maranhão<br>
+            <b>Sigla:</b> MA<br>
+            <b>Number Order:</b> 714<br>
+            <b>GMV:</b> $146,891.13
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_388b4cb5520863a747e2ce7b46d5736c.setIcon(icon_c548cea2a8bbab6d988415640fbf8e69);
+            
+    
+            var marker_0296977a8f0763245fd10f3756909873 = L.marker(
+                [-18.5264844, -44.1588654],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_0118a7ca51367eb8b612a5da9371197c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_0296977a8f0763245fd10f3756909873.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Minas Gerais<br>
+            <b>Sigla:</b> MG<br>
+            <b>Number Order:</b> 11345<br>
+            <b>GMV:</b> $1,818,105.69
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0296977a8f0763245fd10f3756909873.setIcon(icon_0118a7ca51367eb8b612a5da9371197c);
+            
+    
+            var marker_13f24150e4952a60c9d7d57bf5391149 = L.marker(
+                [-19.5852564, -54.4794731],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_51019f9943b101eb71cf9c3dbef6ae4f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_13f24150e4952a60c9d7d57bf5391149.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Mato Grosso do Sul<br>
+            <b>Sigla:</b> MS<br>
+            <b>Number Order:</b> 701<br>
+            <b>GMV:</b> $134,367.55
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_13f24150e4952a60c9d7d57bf5391149.setIcon(icon_51019f9943b101eb71cf9c3dbef6ae4f);
+            
+    
+            var marker_cb1cd994f54246ed286bfc6447278857 = L.marker(
+                [-12.2115009, -55.5716547],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_200f3d1a3c15826a907f37bf41ce53cd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_cb1cd994f54246ed286bfc6447278857.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Mato Grosso<br>
+            <b>Sigla:</b> MT<br>
+            <b>Number Order:</b> 886<br>
+            <b>GMV:</b> $181,224.42
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cb1cd994f54246ed286bfc6447278857.setIcon(icon_200f3d1a3c15826a907f37bf41ce53cd);
+            
+    
+            var marker_0736c8ca539955f993347323d0f65adb = L.marker(
+                [-4.7493933, -52.8973006],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_4c3c990607576d53259854ac5f64c62b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_0736c8ca539955f993347323d0f65adb.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Pará<br>
+            <b>Sigla:</b> PA<br>
+            <b>Number Order:</b> 945<br>
+            <b>GMV:</b> $211,926.25
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0736c8ca539955f993347323d0f65adb.setIcon(icon_4c3c990607576d53259854ac5f64c62b);
+            
+    
+            var marker_e1014be6056ce902792ca86e98a5fd3c = L.marker(
+                [-7.1219366, -36.7246845],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_c766d4e719543ef4d0fc4809e658d3f3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_e1014be6056ce902792ca86e98a5fd3c.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Paraíba<br>
+            <b>Sigla:</b> PB<br>
+            <b>Number Order:</b> 515<br>
+            <b>GMV:</b> $136,417.89
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_e1014be6056ce902792ca86e98a5fd3c.setIcon(icon_c766d4e719543ef4d0fc4809e658d3f3);
+            
+    
+            var marker_85317ca48456ff80962c01ca06cfb580 = L.marker(
+                [-8.4116316, -37.5919699],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_0f3075823af7ff35e885ede2143567a0 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_85317ca48456ff80962c01ca06cfb580.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Pernambuco<br>
+            <b>Sigla:</b> PE<br>
+            <b>Number Order:</b> 1592<br>
+            <b>GMV:</b> $308,895.02
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_85317ca48456ff80962c01ca06cfb580.setIcon(icon_0f3075823af7ff35e885ede2143567a0);
+            
+    
+            var marker_04374c194212c51a526ac6f95d241c21 = L.marker(
+                [-7.6992782, -42.5043787],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_a0a38903613cd123c35a5fa5be6b6058 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_04374c194212c51a526ac6f95d241c21.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Piauí<br>
+            <b>Sigla:</b> PI<br>
+            <b>Number Order:</b> 476<br>
+            <b>GMV:</b> $105,178.19
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_04374c194212c51a526ac6f95d241c21.setIcon(icon_a0a38903613cd123c35a5fa5be6b6058);
+            
+    
+            var marker_9f14a36205a6048ad761e9d962ecdf18 = L.marker(
+                [-24.4842187, -51.8148872],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_1a037db0e1995b732fb00d2bda5ed289 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_9f14a36205a6048ad761e9d962ecdf18.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Paraná<br>
+            <b>Sigla:</b> PR<br>
+            <b>Number Order:</b> 4912<br>
+            <b>GMV:</b> $779,859.38
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9f14a36205a6048ad761e9d962ecdf18.setIcon(icon_1a037db0e1995b732fb00d2bda5ed289);
+            
+    
+            var marker_dfe584a20e631e9eb74a97706a16b435 = L.marker(
+                [-22.9110137, -43.2093727],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_27a2924629952be1298fc6e3baf322be = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_dfe584a20e631e9eb74a97706a16b435.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Rio de Janeiro<br>
+            <b>Sigla:</b> RJ<br>
+            <b>Number Order:</b> 12339<br>
+            <b>GMV:</b> $2,053,495.66
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_dfe584a20e631e9eb74a97706a16b435.setIcon(icon_27a2924629952be1298fc6e3baf322be);
+            
+    
+            var marker_81c2fe25c5641c211a08e8f82488c120 = L.marker(
+                [-5.6781175, -36.4781776],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_e3fd15c23f7aa5fc8fb4ae4c32dec360 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_81c2fe25c5641c211a08e8f82488c120.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Rio Grande do Norte<br>
+            <b>Sigla:</b> RN<br>
+            <b>Number Order:</b> 472<br>
+            <b>GMV:</b> $100,423.37
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_81c2fe25c5641c211a08e8f82488c120.setIcon(icon_e3fd15c23f7aa5fc8fb4ae4c32dec360);
+            
+    
+            var marker_86afef942e098389e01105cc9443f2ca = L.marker(
+                [-10.943145, -62.8277863],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_10f5dc498c9eb093d9e6b6f78f88e5c7 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_86afef942e098389e01105cc9443f2ca.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Rondônia<br>
+            <b>Sigla:</b> RO<br>
+            <b>Number Order:</b> 243<br>
+            <b>GMV:</b> $56,966.00
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_86afef942e098389e01105cc9443f2ca.setIcon(icon_10f5dc498c9eb093d9e6b6f78f88e5c7);
+            
+    
+            var marker_53f06648acc73a59aec4f71a586b5d44 = L.marker(
+                [2.135138, -61.3631922],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_c41836a70dee701a81cef53ce33eb67f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_53f06648acc73a59aec4f71a586b5d44.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Roraima<br>
+            <b>Sigla:</b> RR<br>
+            <b>Number Order:</b> 41<br>
+            <b>GMV:</b> $9,039.52
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_53f06648acc73a59aec4f71a586b5d44.setIcon(icon_c41836a70dee701a81cef53ce33eb67f);
+            
+    
+            var marker_aa0adc6325f9c00985e759299826c53f = L.marker(
+                [-29.8425284, -53.7680577],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_7eea439153ae5c011134246a07aa3595 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_aa0adc6325f9c00985e759299826c53f.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Rio Grande do Sul<br>
+            <b>Sigla:</b> RS<br>
+            <b>Number Order:</b> 5342<br>
+            <b>GMV:</b> $861,297.80
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_aa0adc6325f9c00985e759299826c53f.setIcon(icon_7eea439153ae5c011134246a07aa3595);
+            
+    
+            var marker_cb6fa3de3ff672bb77da866b8e2113fc = L.marker(
+                [-27.0628367, -51.114965],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_fe6381059c259f878fd9915e735a76c8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_cb6fa3de3ff672bb77da866b8e2113fc.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Santa Catarina<br>
+            <b>Sigla:</b> SC<br>
+            <b>Number Order:</b> 3546<br>
+            <b>GMV:</b> $595,127.78
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_cb6fa3de3ff672bb77da866b8e2113fc.setIcon(icon_fe6381059c259f878fd9915e735a76c8);
+            
+    
+            var marker_d6dcee5f2b0f0cfab40aa6bc207bdae1 = L.marker(
+                [-10.6743911, -37.3773519],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_995b7e0565930b631ab4d220ba6a9ea5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_d6dcee5f2b0f0cfab40aa6bc207bdae1.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Sergipe<br>
+            <b>Sigla:</b> SE<br>
+            <b>Number Order:</b> 334<br>
+            <b>GMV:</b> $70,148.10
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d6dcee5f2b0f0cfab40aa6bc207bdae1.setIcon(icon_995b7e0565930b631ab4d220ba6a9ea5);
+            
+    
+            var marker_7f9053ae74c00f530986a1bb544c890a = L.marker(
+                [-23.5506507, -46.6333824],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_3228080014ebc6039171c460f3b582f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_7f9053ae74c00f530986a1bb544c890a.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> São Paulo<br>
+            <b>Sigla:</b> SP<br>
+            <b>Number Order:</b> 40492<br>
+            <b>GMV:</b> $5,768,494.36
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7f9053ae74c00f530986a1bb544c890a.setIcon(icon_3228080014ebc6039171c460f3b582f4);
+            
+    
+            var marker_7effadeee4c57c8f245cb7983f3c3bae = L.marker(
+                [-10.8855129, -48.3716912],
+                {
+}
+            ).addTo(map_7d10f727981b6cbd6c120ca54742be7d);
+        
+    
+            var icon_d05cdf2b343fed36542481234b7d6c0a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgray",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+            marker_7effadeee4c57c8f245cb7983f3c3bae.bindTooltip(
+                `<div>
+                     
+        <div style='font-size:13px; line-height:1.5'>
+            <b>State:</b> Tocantins<br>
+            <b>Sigla:</b> TO<br>
+            <b>Number Order:</b> 274<br>
+            <b>GMV:</b> $60,007.37
+        </div>
+        
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7effadeee4c57c8f245cb7983f3c3bae.setIcon(icon_d05cdf2b343fed36542481234b7d6c0a);
+            
+</script>
+</html>
