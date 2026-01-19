@@ -1,9 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SqlWorkbenchSqlProject">
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="SQLDataWareHouse">
   <Items>
-    <LogicalFolder Name="Connections" Type="2" />
-    <LogicalFolder Name="Queries" Type="0" />
-    <LogicalFolder Name="Miscellaneous" Type="3" />
-
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="DESKTOP-05EPS3K:DESKTOP-05EPS3K\Admin">
+          <Created>2026-01-12T17:11:11.684221+07:00</Created>
+          <Type>SQL</Type>
+          <Server>DESKTOP-05EPS3K</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB />
+          <LoginTimeout>30</LoginTimeout>
+          <TrustServerCertificate>True</TrustServerCertificate>
+          <HostNameInServerCertificate />
+          <EncryptionOption>True</EncryptionOption>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName />
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="CreateDatabaseAndSchemas.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>CreateDatabaseAndSchemas.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DDLScriptBronze.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>DDLScriptBronze.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ProcLoadBronze.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>ProcLoadBronze.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DDLScriptSilver.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>DDLScriptSilver.sql</FullPath>
+        </FileNode>
+        <FileNode Name="ProcLoadSilver.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>ProcLoadSilver.sql</FullPath>
+        </FileNode>
+        <FileNode Name="DDLScriptGold.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>DDLScriptGold.sql</FullPath>
+        </FileNode>
+        <FileNode Name="QualityCheckBronze.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>QualityCheckBronze.sql</FullPath>
+        </FileNode>
+        <FileNode Name="QualityCheckGold.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>QualityCheckGold.sql</FullPath>
+        </FileNode>
+        <FileNode Name="QualityCheckSilver.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:DESKTOP-05EPS3K:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>DESKTOP-05EPS3K</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>QualityCheckSilver.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
   </Items>
 </SqlWorkbenchSqlProject>

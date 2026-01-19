@@ -20,12 +20,12 @@ GO
 
 IF EXISTS (SELECT 1 FROM sys.databases WHERE name = 'DataWarehouseForSales')
 BEGIN
-	ALTER DATABASE [DataWarehouseForSales] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-	DROP DATABASE [DataWarehouseForSales];
+    ALTER DATABASE [DataWarehouseForSales] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE [DataWarehouseForSales];
 END;
 GO
 
-/* Create Database "DataWarehouse" */
+/* Create Database "DataWarehouseForSales" */
 CREATE DATABASE [DataWarehouseForSales]
 GO
 
