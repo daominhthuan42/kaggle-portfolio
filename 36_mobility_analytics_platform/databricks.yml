@@ -1,0 +1,35 @@
+# This is a Databricks asset bundle definition for 36_mobility_analytics_platform.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: 36_mobility_analytics_platform
+  uuid: fdb5f907-c2a4-4b80-9e78-2940ba5876c5
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-ef7d028e-3ab3.cloud.databricks.com
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-ef7d028e-3ab3.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/25001437@student.datapot.edu.vn to make sure we only have a single copy.
+      root_path: /Workspace/Users/25001437@student.datapot.edu.vn/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: 25001437@student.datapot.edu.vn
+        level: CAN_MANAGE

@@ -1,0 +1,14 @@
+# The main pipeline for 36_mobility_analytics_platform
+resources:
+  pipelines:
+    36_mobility_analytics_platform_pipeline:
+      name: 36_mobility_analytics_platform_pipeline
+      catalog: workspace
+      schema: 36_mobility_analytics_platform_${bundle.target}
+      serverless: true
+      libraries:
+        - notebook:
+            path: ../src/pipeline.ipynb
+
+      configuration:
+        bundle.sourcePath: ${workspace.file_path}/src
