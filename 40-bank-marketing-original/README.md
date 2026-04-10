@@ -5,13 +5,10 @@
 In a competitive financial environment, banks need to optimize marketing campaigns to increase **term deposit subscriptions**.
 This project analyzes the **Bank Marketing dataset** and builds machine learning models to predict whether a customer will subscribe to a term deposit.
 
-Competition link: [Playground Series - S5E8 (Kaggle)](https://www.kaggle.com/competitions/playground-series-s5e8)
 Full dataset: [Bank Marketing Dataset (UCI/Kaggle)](https://www.kaggle.com/datasets/sushant097/bank-marketing-dataset-full/data)
 
 ## 📂 Dataset Information
 
-**Training set:** 750,000 samples, 18 columns.
-**Test set:** 250,000 samples, 17 columns.
 **Original dataset:** 45,211 samples.
 
 **Target variable:**
