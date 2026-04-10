@@ -1,0 +1,42 @@
+# =========================================================
+# Global configuration for the Machine Learning project
+# ---------------------------------------------------------
+# This file stores all high-level configuration used across
+# the project such as reproducibility, data source settings,
+# and default model parameters.
+#
+# The configuration is intended to be loaded by the
+# config_loader module and used across training, tuning,
+# and inference pipelines.
+# =========================================================
+
+reproducibility:
+  random_state: 42
+
+# Data configuration
+data:
+  target_feature: "y"
+  data_path: "https://drive.google.com/file/d/1JEryJvj4LAS2ywpazKop5EJTYzK5YZOX/view?usp=sharing"
+  default_encoding:
+    - "utf-8"
+    - "latin1"
+    - "cp1252"
+    - "ISO-8859-1"
+
+split:
+  method: stratified_shuffle
+  n_splits: 1
+  test_size: 0.2
+
+# Model configuration
+model:
+  xgboost:
+    grow_policy: lossguide
+    booster: gbtree
+    objective: binary:logistic
+    eval_metric: auc
+    verbosity: 0
+    n_jobs: -1
+    use_label_encoder: false
+    tree_method: gpu_hist
+    predictor: gpu_predictor
