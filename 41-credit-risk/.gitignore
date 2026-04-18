@@ -1,0 +1,25 @@
+# Databricks local metadata
+.databricks/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+.venv/
+venv/
+
+# Scratch workspace (ignore everything except README)
+scratch/*
+!scratch/README.md
+
+# Exploration / ad-hoc notebooks
+**/explorations/*
+!**/explorations/README.md
