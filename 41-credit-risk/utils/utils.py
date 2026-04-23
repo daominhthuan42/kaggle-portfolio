@@ -154,7 +154,7 @@ class Utils:
         return round(df.memory_usage(deep=True).sum() / 1024**2, 2)
 
     @staticmethod
-    def convert_gdrive_url(url: str) -> str:
+    def _convert_gdrive_url(url: str) -> str:
         """
         Convert a Google Drive sharing link into a direct download URL.
 
@@ -221,40 +221,44 @@ class Utils:
             Loaded DataFrame if successful, otherwise None.
         """
 
-        def is_url(p: str) -> bool:
+        def _is_url(p: str) -> bool:
             """Check whether a path is an HTTP/HTTPS URL."""
             return urlparse(p).scheme in ("http", "https")
 
         # Convert Google Drive sharing links automatically
         if "drive.google.com" in path:
-            path = Utils.convert_gdrive_url(path)
+            path = Utils._convert_gdrive_url(path)
 
         # Validate local file existence
-        if not is_url(path) and not os.path.exists(path):
+        if not _is_url(path) and not os.path.exists(path):
             logger.error(f"File not found: {path}")
             return None
 
         # Attempt reading file with different encodings
         for enc in encodings:
             try:
-                df = pd.read_csv(path, encoding=enc, sep=sep)
+                if sep is None:
+                    df = pd.read_csv(path, encoding=enc)
+                else:
+                    df = pd.read_csv(path, encoding=enc, sep=sep)
                 logger.info(f"Loaded file with encoding: {enc} | Shape: {df.shape}")
                 return df
 
             except UnicodeDecodeError:
                 logger.warning(f"Failed with encoding: {enc}")
+                continue
 
             except pd.errors.EmptyDataError:
                 logger.error("CSV file is empty.")
-                return None
+                continue
 
             except pd.errors.ParserError:
                 logger.error("CSV parsing error. Please check file format.")
-                return None
+                continue
 
             except Exception as e:
                 logger.error(f"Unexpected error while reading CSV: {e}")
-                return None
+                continue
 
         logger.error("Unable to read file with all provided encodings.")
         return None
