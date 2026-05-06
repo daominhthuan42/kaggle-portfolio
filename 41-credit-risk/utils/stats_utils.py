@@ -13,6 +13,7 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.anova import anova_lm
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 from scipy.stats import skew, kurtosis, probplot
+from scipy.stats import pearsonr, pointbiserialr
 
 class StatUtils:
     """
@@ -662,39 +663,34 @@ class StatUtils:
     def cal_mannwhitneyu(dataframe: pd.DataFrame, categorical_feature: str, 
                         num_feature: str, logger: logging.Logger) -> None:
         """
-        Perform the Mann–Whitney U test (Wilcoxon rank-sum test) to assess whether there 
-        is a statistically significant difference in the distribution of a numerical feature 
-        between two independent groups defined by a binary categorical feature.
+        Perform Mann–Whitney U test to compare a numerical feature between two groups.
 
-        The function also compares medians, calculates the effect size (r), provides interpretation,
+        This test evaluates whether the distributions of a numerical variable differ
+        between two independent groups defined by a binary categorical feature.
+        It also computes effect sizes (r and Cliff’s Delta) for practical interpretation.
 
         Parameters
         ----------
         dataframe : pd.DataFrame
-            The input DataFrame containing the data.
-
+            Input dataset.
         categorical_feature : str
-            Column name of the categorical feature (must contain exactly 2 unique values).
-
+            Binary categorical column defining two groups.
         num_feature : str
-            Column name of the numerical feature to compare.
-
-        logger : logging.Logger
-            Logger instance used to record the analysis process, statistical results,
-            and decision messages.
+            Numerical column to compare between groups.
+        logger : logging.Logger, optional
+            Logger used to output results and interpretation.
 
         Returns
         -------
         None
-            Prints the U statistic, p-value, medians, Z-score, effect size r, and interpretation.
+            Logs test statistics, p-value, effect sizes, and interpretation.
 
         Notes
         -----
-        - H₀ (Null Hypothesis): The two groups have the same distribution.
-        - H₁ (Alternative Hypothesis): The distributions are different.
-        - If p ≤ 0.05 → reject H₀ → significant difference.
-        - Effect size r helps interpret how strong the difference is:
-            * Small ~0.1, Medium ~0.3, Large ≥0.5
+        - H0: The two groups have the same distribution.
+        - Reject H0 if p ≤ 0.05.
+        - Effect size (r): small ~0.1, medium ~0.3, large ≥0.5.
+        - Cliff’s Delta provides an additional non-parametric effect size measure.
         """
         groups = dataframe[categorical_feature].dropna().unique()
 
@@ -722,11 +718,38 @@ class StatUtils:
         z = (stat - mean_U) / std_U
         r = abs(z) / np.sqrt(n1 + n2)
 
+        # Cliff's Delta (FAST version)
+        x = np.asarray(group1)
+        y = np.asarray(group2)
+
+        y_sorted = np.sort(y)
+
+        n_greater = 0
+        n_less = 0
+
+        for xi in x:
+            n_less += np.searchsorted(y_sorted, xi, side='left')
+            n_greater += n2 - np.searchsorted(y_sorted, xi, side='right')
+
+        delta = (n_greater - n_less) / (n1 * n2)
+
+        # Interpretation Cliff’s Delta
+        abs_delta = abs(delta)
+        if abs_delta < 0.147:
+            delta_interp = "Negligible"
+        elif abs_delta < 0.33:
+            delta_interp = "Small"
+        elif abs_delta < 0.474:
+            delta_interp = "Medium"
+        else:
+            delta_interp = "Large"
+
         # Interpretation
         if p <= 0.05:
             logger.info("Result: p-value ≤ 0.05 → Reject H0")
             logger.info("Conclusion: Significant difference between the two groups.")
 
+            logger.info(f"Effect size (r): {r:.4f}")
             if r < 0.1:
                 logger.info("Effect size interpretation: Negligible")
             elif r < 0.3:
@@ -735,6 +758,10 @@ class StatUtils:
                 logger.info("Effect size interpretation: Medium")
             else:
                 logger.info("Effect size interpretation: Large")
+
+            # Cliff’s Delta
+            logger.info(f"Cliff's Delta: {delta:.4f}")
+            logger.info(f"Effect size (Cliff's Delta) interpretation: {delta_interp}")
         else:
             logger.warning("Result: p-value > 0.05 → Fail to reject H0")
             logger.warning("Conclusion: No statistically significant difference detected.")
@@ -1025,6 +1052,7 @@ class StatUtils:
         plt.tight_layout()
         plt.show()
 
+    @staticmethod
     def analyze_categorical_feature_vs_target(cat: str, target_feature: str, logger: logging.Logger, 
                                               df: pd.DataFrame, figsize=(20, 6), order=None) -> None:
         """
@@ -1127,3 +1155,264 @@ class StatUtils:
 
         # Chi-Square Test
         StatUtils.cal_ChiSquare(cat_feature=cat, target_feature=target_feature, df=df, logger=logger, show_residuals=True)
+
+    @staticmethod
+    def _compute_corr_pval(df: pd.DataFrame):
+        """
+        Compute correlation and p-value matrices for numeric features.
+
+        This function calculates pairwise relationships between numeric columns:
+        - Uses Pearson correlation for continuous-continuous pairs
+        - Uses point-biserial correlation when one variable is binary (0/1)
+
+        It also computes corresponding p-values to assess statistical significance.
+        """
+
+        # Select only numeric columns
+        cols = df.select_dtypes(include=np.number).columns
+        cols = [col for col in cols if df[col].dtype != "category"]
+
+        # Initialize empty matrices
+        corr_matrix = pd.DataFrame(index=cols, columns=cols, dtype=float)
+        pval_matrix = pd.DataFrame(index=cols, columns=cols, dtype=float)
+
+        # Iterate over all feature pairs
+        for i in cols:
+            for j in cols:
+                x = df[i]
+                y = df[j]
+
+                # Remove NaN values pairwise to ensure valid computation
+                valid = x.notna() & y.notna()
+                x = x[valid]
+                y = y[valid]
+
+                # Check if variables are binary (0/1)
+                is_i_binary = set(x.unique()).issubset({0, 1})
+                is_j_binary = set(y.unique()).issubset({0, 1})
+
+                try:
+                    if i == j:
+                        # Diagonal: perfect correlation
+                        corr_matrix.loc[i, j] = 1.0
+                        pval_matrix.loc[i, j] = 0.0
+
+                    elif is_i_binary and not is_j_binary:
+                        # Binary vs continuous → point-biserial
+                        r, p = pointbiserialr(x, y)
+
+                    elif is_j_binary and not is_i_binary:
+                        # Continuous vs binary → point-biserial (swap order)
+                        r, p = pointbiserialr(y, x)
+
+                    else:
+                        # Continuous vs continuous → Pearson
+                        r, p = pearsonr(x, y)
+
+                    # Store results
+                    corr_matrix.loc[i, j] = r
+                    pval_matrix.loc[i, j] = p
+
+                except:
+                    # Handle edge cases (constant columns, etc.)
+                    corr_matrix.loc[i, j] = np.nan
+                    pval_matrix.loc[i, j] = np.nan
+
+        return corr_matrix, pval_matrix
+
+    @staticmethod
+    def _prepare_heatmap(matrix):
+        """
+        Prepare a matrix and mask for triangular heatmap visualization.
+
+        This function:
+        - Creates an upper triangular mask to avoid duplicate values
+        - Removes redundant first row/last column for cleaner plotting
+        """
+
+        # Create upper triangle mask
+        mask = np.triu(np.ones_like(matrix, dtype=bool))
+
+        # Trim matrix to avoid redundant mirrored values
+        return matrix.iloc[1:, :-1], mask[1:, :-1]
+
+    @staticmethod
+    def plot_correlation_with_pvalue_single(df_origin, origin_name="Credit Analysis"):
+        """
+        Visualize correlation and statistical significance for ONE dataset only.
+
+        Output:
+        3 plots in ONE ROW:
+        1. Correlation heatmap
+        2. P-value heatmap
+        3. Significant correlations (p < 0.05)
+        """
+
+        # =========================
+        # Compute correlation & p-value
+        # =========================
+        corr, pval = StatUtils._compute_corr_pval(df_origin)
+
+        # =========================
+        # Prepare matrices
+        # =========================
+        corr, mask = StatUtils._prepare_heatmap(corr)
+        pval, _ = StatUtils._prepare_heatmap(pval)
+
+        # =========================
+        # Plot
+        # =========================
+        cmap = sns.diverging_palette(0, 230, 90, 60, as_cmap=True)
+
+        # 1 row, 3 columns
+        fig, ax = plt.subplots(1, 3, figsize=(28, 9))
+
+        # 1. Correlation
+        sns.heatmap(
+            corr,
+            mask=mask,
+            annot=True,
+            fmt=".2f",
+            cmap=cmap,
+            vmin=-1, vmax=1,
+            linewidths=0.5,
+            linecolor="white",
+            ax=ax[0]
+        )
+        ax[0].set_title(f"{origin_name} - Correlation", weight="bold")
+
+        # 2. P-value
+        sns.heatmap(
+            pval,
+            mask=mask,
+            annot=True,
+            fmt=".3f",
+            cmap=cmap,
+            linewidths=0.5,
+            linecolor="white",
+            ax=ax[1]
+        )
+        ax[1].set_title(f"{origin_name} - P-value", weight="bold")
+
+        # 3. Significant only
+        sig = pval < 0.05
+
+        sns.heatmap(
+            corr.where(sig),
+            mask=mask,
+            annot=True,
+            fmt=".2f",
+            cmap=cmap,
+            vmin=-1, vmax=1,
+            linewidths=0.5,
+            linecolor="white",
+            ax=ax[2]
+        )
+        ax[2].set_title(f"{origin_name} - Significant (p < 0.05)", weight="bold")
+
+        plt.tight_layout()
+        plt.show()
+
+    @staticmethod
+    def plot_correlation_with_pvalue(df_train, df_origin, df_test,
+                                    origin_name="Origin Data",
+                                    train_name="Train Data",
+                                    test_name="Test Data"):
+        """
+        Visualize correlation and statistical significance across datasets.
+
+        This function:
+        - Computes correlation (r) and p-value matrices for each dataset
+        - Plots three types of heatmaps for each dataset:
+            1. Correlation heatmap (strength of relationship)
+            2. P-value heatmap (statistical significance)
+            3. Significant correlations only (p < 0.05)
+
+        It supports mixed numeric and binary features using Pearson and
+        point-biserial correlation appropriately.
+        """
+
+        # =========================
+        # Compute correlation & p-value
+        # =========================
+        corr_train, p_train = StatUtils._compute_corr_pval(df_train)
+        corr_origin, p_origin = StatUtils._compute_corr_pval(df_origin)
+        corr_test, p_test = StatUtils._compute_corr_pval(df_test)
+
+        # =========================
+        # Prepare matrices for plotting
+        # =========================
+        corr_train, mask_train = StatUtils._prepare_heatmap(corr_train)
+        p_train, _ = StatUtils._prepare_heatmap(p_train)
+
+        corr_origin, mask_origin = StatUtils._prepare_heatmap(corr_origin)
+        p_origin, _ = StatUtils._prepare_heatmap(p_origin)
+
+        corr_test, mask_test = StatUtils._prepare_heatmap(corr_test)
+        p_test, _ = StatUtils._prepare_heatmap(p_test)
+
+        # Color map for correlation
+        cmap = sns.diverging_palette(0, 230, 90, 60, as_cmap=True)
+
+        # Create subplot grid (3 rows × 3 datasets)
+        fig, ax = plt.subplots(3, 3, figsize=(25, 20))
+
+        datasets = [
+            (corr_train, p_train, mask_train, train_name),
+            (corr_test, p_test, mask_test, test_name),
+            (corr_origin, p_origin, mask_origin, origin_name),
+        ]
+
+        for col, (corr, pval, mask, title) in enumerate(datasets):
+
+            # =========================
+            # 1. Correlation heatmap
+            # =========================
+            sns.heatmap(
+                corr,
+                mask=mask,
+                annot=True,
+                fmt=".2f",
+                cmap=cmap,
+                vmin=-1, vmax=1,
+                linewidths=0.5,
+                linecolor="white",
+                ax=ax[0, col]
+            )
+            ax[0, col].set_title(f"{title} - Correlation", weight="bold")
+
+            # =========================
+            # 2. P-value heatmap
+            # =========================
+            sns.heatmap(
+                pval,
+                mask=mask,
+                annot=True,
+                fmt=".3f",
+                cmap=cmap,
+                linewidths=0.5,
+                linecolor="white",
+                ax=ax[1, col]
+            )
+            ax[1, col].set_title(f"{title} - P-value", weight="bold")
+
+            # =========================
+            # 3. Significant correlations only
+            # =========================
+            sig = pval < 0.05  # significance threshold
+
+            sns.heatmap(
+                corr.where(sig),  # mask non-significant values
+                mask=mask,
+                annot=True,
+                fmt=".2f",
+                cmap=cmap,
+                vmin=-1, vmax=1,
+                linewidths=0.5,
+                linecolor="white",
+                ax=ax[2, col]
+            )
+            ax[2, col].set_title(f"{title} - Significant (p < 0.05)", weight="bold")
+
+        plt.tight_layout()
+        plt.show()

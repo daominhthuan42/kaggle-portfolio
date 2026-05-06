@@ -3,6 +3,7 @@ import pandas as pd
 import logging
 from scipy.stats import skew
 from sklearn.preprocessing import PowerTransformer
+from sklearn.feature_selection import mutual_info_classif
 
 class FeatureUtils:
 
@@ -131,3 +132,65 @@ class FeatureUtils:
 
         logger.info(f"Feature transformation completed. Generated {len(transformed_cols)} new features")
         return df, transformed_cols, high_zero_cols, auto_skewed
+
+    @staticmethod
+    def compute_mutual_information(X, y, random_state=42, handle_na = True) -> pd.DataFrame:
+        """
+        Compute Mutual Information (MI) between features and target.
+
+        MI captures both linear and non-linear dependencies.
+
+        Parameters
+        ----------
+        X : pd.DataFrame
+            Feature matrix.
+        y : pd.Series or array-like
+            Target variable.
+        random_state : int, default=42
+            Random seed for reproducibility.
+        handle_na : bool, default=True
+            If True, fill missing values in X with median (no side-effect on original data).
+
+        Returns
+        -------
+        pd.DataFrame
+            Feature importance ranked by MI with columns:
+            ['feature', 'mi', 'mi_norm'].
+
+        Notes
+        -----
+        - MI measures strength, not direction.
+        - Best used alongside correlation analysis.
+        """
+
+        if handle_na:
+            # Fill missing values with median
+            X = X.copy()
+            X = X.fillna(X.median())
+
+        # Step 1: Compute MI scores
+        # mutual_info_classif estimates the dependency between each feature and the target
+        # using non-parametric methods (k-nearest neighbors based estimation)
+        mi_scores = mutual_info_classif(X, y, random_state=random_state)
+
+        # Step 2: Create result DataFrame
+        # Pair each feature with its corresponding MI score
+        mi_df = pd.DataFrame({
+            "feature": X.columns,
+            "mi": mi_scores
+        })
+
+        # Step 3: Sort features by importance
+        # Higher MI → stronger relationship with target
+        mi_df = (
+            mi_df
+            .sort_values(by="mi", ascending=False)
+            .reset_index(drop=True)
+        )
+
+        # Step 4: Normalize scores
+        # Scale MI values to [0, 1] for easier comparison
+        # (relative importance instead of absolute values)
+        mi_df["mi_norm"] = mi_df["mi"] / mi_df["mi"].max()
+
+        return mi_df
