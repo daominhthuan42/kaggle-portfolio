@@ -371,8 +371,8 @@ erDiagram
     dim_location ||--o{ fact_membership_activity : "location_key"
     dim_date ||--o{ fact_membership_activity : "Date"
 
-    dim_member ||--o{ fact_attendance : "member_key"
-    dim_weekday ||--o{ fact_attendance : "day_sort"
+    dim_weekday ||--o{ fact_attendance : "days_per_week"
+    fact_membership_activity ||--o{ fact_attendance : "member_id"
 
     dim_member {
         int member_key
@@ -441,7 +441,6 @@ erDiagram
 
     fact_attendance {
         int member_key
-        int day_sort
         string member_id
         string days_per_week
     }
