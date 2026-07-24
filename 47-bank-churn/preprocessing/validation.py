@@ -176,6 +176,7 @@ class DataValidator:
                     "Feature": feature,
                     "Outlier_Count": outlier_count
                 })
+        return pd.DataFrame(outlier_info)
 
     @staticmethod
     def check_skewness(data: pd.DataFrame, dataset_name: str, numerical_features: List[str], 

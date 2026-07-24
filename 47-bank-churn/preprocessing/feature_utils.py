@@ -1,3 +1,4 @@
+# feature_utils.py
 import numpy as np
 import pandas as pd
 import logging
@@ -6,6 +7,37 @@ from sklearn.preprocessing import PowerTransformer
 from sklearn.feature_selection import mutual_info_classif
 
 class FeatureUtils:
+    """
+    Collection of utility methods for feature engineering and feature analysis.
+
+    This class contains static helper methods used during preprocessing and
+    feature selection stages of machine learning workflows.
+
+    Responsibilities
+    ----------------
+    - Detect skewed numerical variables
+    - Apply numerical transformations
+    - Handle sparse/high-zero features
+    - Compute Mutual Information feature importance
+
+    Design Notes
+    ------------
+    - Implemented as a static utility class
+    - No internal state is maintained
+    - Methods are pipeline-friendly and reusable
+
+    Examples
+    --------
+    >>> transformed_df, transformed_cols, sparse_cols, skewed_cols = (
+    ...     FeatureUtils.handle_skewed_features(
+    ...         df=data,
+    ...         num_features=numeric_cols,
+    ...         logger=logger
+    ...     )
+    ... )
+
+    >>> mi_df = FeatureUtils.compute_mutual_information(X, y)
+    """
 
     @staticmethod
     def fea_HandleSkewedFeatures(

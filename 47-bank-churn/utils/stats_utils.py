@@ -342,7 +342,7 @@ class StatUtils:
 
         # === Display results table ===
         df_result = pd.DataFrame(results)
-        cm = sns.light_palette("blue", as_cmap=True)
+        cm = sns.light_palette("green", as_cmap=True)
         styled = (
             df_result.style
             .background_gradient(subset=["Skewness"], cmap=cm, vmin=-1, vmax=1)
@@ -547,7 +547,7 @@ class StatUtils:
             logger.debug("Running Games–Howell post-hoc test...")
             gh_result = pg.pairwise_gameshowell(dv=numeric_feature, between=categorical_feature, data=df)
 
-            display(gh_result.style.background_gradient(cmap=sns.light_palette("blue", as_cmap=True)) \
+            display(gh_result.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True)) \
                     .format(precision=4).set_table_attributes('style="width:80%; margin:auto;"'))
         else:
             logger.warning("Result: p-value ≥ 0.05 → Fail to reject H0")
@@ -646,7 +646,7 @@ class StatUtils:
             "Value": [f"{stat:.4f}", f"{p:.6f}", f"{ratio:.2f}"]
         })
         display(summary_df.style
-                .background_gradient(subset=["Value"], cmap="Blues")
+                .background_gradient(subset=["Value"], cmap="Greens")
                 .set_caption(
             f'<b><span style="font-size:14px; text-align:center; display:block;">'
             f'Homogeneity of Variance — {feature} by {target_feature}</span></b>'
@@ -1031,7 +1031,7 @@ class StatUtils:
 
         # Step 3 — Display summary table with color gradient
         display(
-            df_summary_feature.style.background_gradient(cmap=sns.light_palette("blue", as_cmap=True))
+            df_summary_feature.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True))
             .set_table_attributes('style="width:75%; margin:auto;"')
         )
 
@@ -1043,7 +1043,7 @@ class StatUtils:
         sns.violinplot(x=target_feature, y=feature, data=df, hue=target_feature, order=order,
                        palette=ColorUtils.color(n_colors=df[target_feature].nunique(), tone="diverging"))
         
-        plt.title(f"Violin plot of {feature} distribution by Subscription ({target_feature})",
+        plt.title(f"Violin plot of {feature} distribution by {target_feature.title()}",
                   pad=15, weight="bold", fontsize=12)
         plt.xlabel("")
         plt.ylabel("")
@@ -1089,7 +1089,7 @@ class StatUtils:
         None
         """
 
-        display(HTML(f"<h2 style='text-align:center; font-size:22px; color:blue;'><b>Distribution of {cat.title()} by {target_feature.title()}</b></h2>"))
+        display(HTML(f"<h2 style='text-align:center; font-size:22px; color:green;'><b>Distribution of {cat.title()} by {target_feature.title()}</b></h2>"))
         fig, ax = plt.subplots(nrows=1, ncols=2, sharey=False, figsize=figsize)
 
         # Data processing
