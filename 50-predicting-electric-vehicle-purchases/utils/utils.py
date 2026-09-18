@@ -131,7 +131,17 @@ class Utils:
         """
 
         for feature in features:
-            if feature in df.columns:
+            # Skip features that do not exist in the DataFrame
+            if feature not in df.columns:
+                continue
+
+            # Numerical feature that is conceptually categorical
+            # Example:
+            #   Environmental_Concern_Level -> 1, 2, 3, 4, 5
+            #   Number_of_Cars_Owned         -> 1, 2, 3, 4
+            if pd.api.types.is_numeric_dtype(df[feature]):
+                df[feature] = df[feature].astype("Int8").astype("category")
+            else:
                 df[feature] = df[feature].astype("category")
 
         return df

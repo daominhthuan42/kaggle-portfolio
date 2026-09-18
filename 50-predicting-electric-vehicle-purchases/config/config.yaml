@@ -1,0 +1,64 @@
+# =========================================================
+# Global configuration for the Machine Learning project
+
+# This file stores all high-level configuration used across
+# the project such as reproducibility, data source settings,
+# dataset information, and default experiment parameters.
+#
+# The configuration is intended to be loaded by the
+# config_loader module and used across training, tuning,
+# and inference pipelines.
+# =========================================================
+
+# Reproducibility
+random_state: 42
+
+# Dataset Configuration
+dataset:
+  # Dataset location
+  paths:
+    train: "dataset/train.csv"
+    test: "dataset/test.csv"
+    original: "dataset/EV_Adoption_and_Range_Anxiety_Dataset.csv"
+
+  # Dataset display name
+  name: "EV Adoption Prediction Dataset"
+
+  # Supported file encodings when loading CSV files
+  default_encoding:
+    - "utf-8"
+    - "latin1"
+    - "cp1252"
+    - "ISO-8859-1"
+
+# Target Configuration
+target:
+  feature: "Will_Buy_EV"
+
+# Train / Test Split Configuration
+split:
+  method: "stratified_shuffle"
+  n_splits: 1
+  test_size: 0.2
+
+# Cross-Validation Configuration
+cv:
+  n_splits: 5
+
+# Visualization Configuration
+colors:
+  - "#667eea"
+  - "#764ba2"
+  - "#a855f7"
+  - "#f093fb"
+  - "#fbc2eb"
+
+# Identifier Columns
+# Identifier columns that do not provide predictive
+# information for machine learning models.
+columns:
+  train_test:
+    - "id"
+
+  original:
+    - "Buyer_ID"

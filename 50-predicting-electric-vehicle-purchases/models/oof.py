@@ -177,7 +177,7 @@ def run_oof(
                 X_train,
                 y_train,
                 categorical_feature=cat_features,
-                eval_set=[(X_val, y_val)],
+                eval_set=[(X_valid, y_valid)],
                 callbacks=[
                     lgb.early_stopping(
                         stopping_rounds=300,
@@ -192,7 +192,7 @@ def run_oof(
                 y_train,
                 eval_set=[
                     (X_train, y_train),
-                    (X_val, y_val)
+                    (X_valid, y_valid)
                 ],
                 verbose=False
             )
@@ -347,9 +347,8 @@ def run_oof_v2(
     model,
     X,
     y,
-    X_val=None,
-    y_val=None,
     X_test=None,
+    cat_features = [],
     logger: logging.Logger = None,
     n_splits: int = 5,
     threshold: float = 0.5,
@@ -377,14 +376,11 @@ def run_oof_v2(
     y : array-like
         Training target labels.
 
-    X_val : array-like, optional
-        Validation feature matrix.
-
-    y_val : array-like, optional
-        Validation target labels.
-
     X_test : array-like, optional
         Unseen test feature matrix.
+
+    cat_features : list[str]
+        List of categorical feature names.
 
     logger : logging.Logger, optional
         Logger instance.
@@ -420,40 +416,82 @@ def run_oof_v2(
 
     # Prediction Containers
     oof_pred = np.zeros(_get_n_rows(X))
-    val_pred = (np.zeros(_get_n_rows(X_val)) if X_val is not None else None)
+    # val_pred = (np.zeros(_get_n_rows(X_val)) if X_val is not None else None)
     test_pred = (np.zeros(_get_n_rows(X_test)) if X_test is not None else None)
 
     # Store Results
-    fold_models = []
     fold_auc = []
     roc_curves = []
     pr_curves = []
     ap_values = []
 
+    # Store feature importance from each fold
+    fold_feature_importances = []
+
     # Cross Validation Loop
     for fold, (train_idx, valid_idx) in enumerate(skf.split(X, y), 1):
-        logger.info(f"Fold {fold}/{n_splits}")
+        logger.info("-" * 80)
+        logger.info(f"Starting Fold {fold}/{n_splits}")
+        
+        # Split fold data        
+        X_train = X.iloc[train_idx]
+        X_valid = X.iloc[valid_idx]
 
-        # Split Data
-        X_train = X[train_idx]
-        X_valid = X[valid_idx]
-        y_train = y[train_idx]
-        y_valid = y[valid_idx]
+        y_train = y.iloc[train_idx]
+        y_valid = y.iloc[valid_idx]
+
+        logger.debug(
+            f"Fold {fold} | "
+            f"Train samples: {len(X_train):,} | "
+            f"Validation samples: {len(X_valid):,}"
+        )
 
         # Clone Model
         model_fold = clone(model)
 
-        # Train
-        model_fold.fit(X_train, y_train)
-        fold_models.append(model_fold)
+        # Train CatBoost
+        if model_fold.__class__.__name__ == "CatBoostClassifier":
+            model_fold.fit(
+                X_train,
+                y_train,
+                cat_features=cat_features,
+                eval_set=(X_valid, y_valid),
+                early_stopping_rounds=300,
+                verbose=False
+            )
+        elif model_fold.__class__.__name__ == "LGBMClassifier":
+            model_fold.fit(
+                X_train,
+                y_train,
+                categorical_feature=cat_features,
+                eval_set=[(X_valid, y_valid)],
+                callbacks=[
+                    lgb.early_stopping(
+                        stopping_rounds=300,
+                        verbose=False
+                    ),
+                    lgb.log_evaluation(500)
+                ]
+            )
+        elif model_fold.__class__.__name__ == "XGBClassifier":
+            model_fold.fit(
+                X_train,
+                y_train,
+                eval_set=[
+                    (X_train, y_train),
+                    (X_valid, y_valid)
+                ],
+                verbose=False
+            )
+
+        logger.info(
+            f"Fold {fold} training completed | "
+            f"Best iteration: {_get_best_iteration(model_fold)}"
+        )
 
         # Validation Prediction
         fold_pred = _get_prediction_scores(model=model_fold, X=X_valid)
         oof_pred[valid_idx] = fold_pred
-
-        # External Validation Prediction 
-        if X_val is not None:
-            val_pred += (_get_prediction_scores(model=model_fold, X=X_val) / n_splits)
 
         # Unseen Test Prediction
         if X_test is not None:
@@ -476,11 +514,54 @@ def run_oof_v2(
         ap = average_precision_score(y_valid, fold_pred)
         ap_values.append(ap)
 
+        # Feature Importance
+        try:
+            if model.__class__.__name__ == "CatBoostClassifier":
+                feature_importance = model_fold.get_feature_importance()
+            else:
+                feature_importance = model_fold.feature_importances_
+        except:
+            pass
+
+        fold_importance = pd.DataFrame({
+            "feature": X.columns,
+            "importance": feature_importance,
+            "fold": fold
+        })
+        fold_feature_importances.append(fold_importance)
+        logger.debug(f"Fold {fold} feature importance collected successfully")
+
+        # Release temporary fold objects
+        del model_fold
+        del X_train, X_valid
+        del y_train, y_valid
+        del fold_pred
+        del feature_importance
+        del fold_importance
+
+        gc.collect()
+        logger.debug(f"Fold {fold} temporary memory released")
+
     # Final OOF Score
     oof_auc = roc_auc_score(y, oof_pred)
+    mean_auc = np.mean(fold_auc)
+    std_auc = np.std(fold_auc)
     logger.info("OOF training completed")
     logger.info(f"OOF AUC: {oof_auc:.5f}")
     logger.info(f"Fold AUCs: {fold_auc}")
+    logger.info(f"Mean Fold AUC: {mean_auc:.5f} +/- {std_auc:.5f}")
+
+    # Aggregate Feature Importance    
+    feature_importance_all = pd.concat(fold_feature_importances, ignore_index=True)
+    feature_importance = (
+        feature_importance_all
+        .groupby("feature", as_index=False)
+        .agg(
+            importance_mean=("importance", "mean"),
+            importance_std=("importance", "std")
+        )
+        .reset_index(drop=True)
+    )
 
     # Visualization
     fig, axes = plt.subplots(3, 2, figsize=(16, 20))
@@ -515,20 +596,8 @@ def run_oof_v2(
     ax.set_xlabel("Predicted")
     ax.set_ylabel("True")
 
-    # Validation Confusion Matrix
-    ax = axes[1, 1]
-    if X_val is not None and y_val is not None:
-        y_val_label = (val_pred >= threshold).astype(int)
-        cm = confusion_matrix(y_val, y_val_label)
-        sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=ax)
-        ax.set_title(f"Validation Confusion Matrix (Threshold={threshold})", weight="bold", fontsize=12, pad=15)
-        ax.set_xlabel("Predicted")
-        ax.set_ylabel("True")
-    else:
-        ax.axis("off")
-
     # Test Prediction Distribution
-    ax = axes[2, 0]
+    ax = axes[1, 1]
     if X_test is not None and test_pred is not None:
         sns.histplot(test_pred, bins=30, kde=True, color="#4C72B0", ax=ax)
         # threshold line
@@ -545,33 +614,47 @@ def run_oof_v2(
         ax.axis("off")
 
     # Test Predicted Class Distribution
-    ax = axes[2, 1]
+    ax = axes[2, 0]
     if X_test is not None and test_pred is not None:
+        order = ["No", "Yes"]
+        colors = ["#16A34A", "#DC2626"]
         predicted_labels = (test_pred >= threshold).astype(int)
-        sns.countplot(x=predicted_labels, ax=ax)
+        # Convert binary labels to target labels
+        predicted_classes = pd.Series(predicted_labels).map({
+            0: "No",
+            1: "Yes"
+        })
+
+        total = len(predicted_classes)
+        # Count Plot
+        sns.countplot(x=predicted_classes, order=order, hue=predicted_classes, palette=colors,
+                      legend=False, ax=ax)
         ax.set_title("Test Predicted Class Distribution", weight="bold", fontsize=12, pad=15)
         ax.set_xlabel("Predicted Class")
-        ax.set_ylabel("Count")
-        ax.set_xticklabels(["Stayed (0)", "Left (1)"])
+        ax.set_ylabel("Number of Consumers")
+        ax.set_xticklabels(["No (0)", "Yes (1)"])
 
-        # Add value labels on bars
-        for p in ax.patches:
-            height = int(p.get_height())
-            ax.annotate(
-                f"{height:,}",
-                (
-                    p.get_x() + p.get_width() / 2,
-                    height
-                ),
-                ha="center",
-                va="bottom",
+        sns.despine(ax=ax)
+
+        # Count + Percentage Labels
+        for container in ax.containers:
+            labels = [
+                f"{int(bar.get_height()):,}\n"
+                f"({bar.get_height() / total:.1%})"
+                for bar in container
+            ]
+
+            ax.bar_label(
+                container,
+                labels=labels,
                 fontsize=10,
                 fontweight="bold",
-                xytext=(0, 5),
-                textcoords="offset points"
+                padding=3
             )
+        ax.grid(False)
     else:
         ax.axis("off")
+    axes[2, 1].axis("off")
     # Final Layout
     plt.tight_layout()
     plt.show()
@@ -579,8 +662,7 @@ def run_oof_v2(
     # Return Results
     return {
         "oof_pred": oof_pred,
-        "val_pred": val_pred,
         "test_pred": test_pred,
         "fold_auc": fold_auc,
-        "fold_models": fold_models
+        "feature_importance": feature_importance
     }

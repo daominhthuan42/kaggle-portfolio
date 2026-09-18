@@ -84,7 +84,7 @@ def objective_catboost(
     # Hyperparameter search space
     bootstrap_type = trial.suggest_categorical("bootstrap_type", ["Bayesian", "Bernoulli"])
     params = {
-        "iterations": trial.suggest_int("iterations", 1000, 2500),
+        "iterations": trial.suggest_int("iterations", 500, 2000),
         "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.08, log=True),
         "depth": trial.suggest_int("depth", 4, 8),
         "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1e-3, 10.0, log=True),

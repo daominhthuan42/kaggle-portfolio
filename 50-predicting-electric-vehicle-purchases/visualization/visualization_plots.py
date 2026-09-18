@@ -6,12 +6,63 @@ import pandas as pd
 from utils.colors_utils import ColorUtils
 from typing import List
 from scipy.stats import pearsonr, pointbiserialr
-# Visualization libraries
-import plotly.express as px
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
-from plotly.offline import init_notebook_mode
-init_notebook_mode(connected=True)
+
+def setup_plot_style():
+    """
+    Configure a global dark theme for all Matplotlib and Seaborn visualizations.
+
+    Returns
+    -------
+    None
+    """
+
+    plt.style.use("dark_background")
+
+    sns.set_theme(
+        style="ticks",
+        rc={
+            "axes.facecolor": "#181818",
+            "figure.facecolor": "#181818",
+            "savefig.facecolor": "#181818",
+            "axes.edgecolor": "#777777",
+            "axes.labelcolor": "white",
+            "xtick.color": "white",
+            "ytick.color": "white",
+            "text.color": "white",
+            "grid.color": "#555555",
+            "legend.facecolor": "#252525",
+            "legend.edgecolor": "#666666",
+        },
+    )
+
+    plt.rcParams.update({
+        # Figure
+        "figure.figsize": (12, 6),
+        "figure.dpi": 120,
+        "savefig.dpi": 150,
+
+        # Font
+        "font.size": 11,
+        "axes.titlesize": 13,
+        "axes.titleweight": "bold",
+        "axes.labelsize": 11,
+        "figure.titlesize": 20,
+
+        # Grid
+        "axes.grid": True,
+        "grid.linestyle": "--",
+        "grid.alpha": 0.18,
+
+        # Legend
+        "legend.frameon": True,
+        "legend.fontsize": 9,
+
+        # Lines
+        "lines.linewidth": 2,
+
+        # Boxplot
+        "boxplot.flierprops.markersize": 2
+    })
 
 def plot_numerical_features_v2(df: pd.DataFrame,
                                numerical_features: List[str]) -> None:

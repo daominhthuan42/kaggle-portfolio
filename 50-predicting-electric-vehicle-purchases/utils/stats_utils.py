@@ -1246,21 +1246,15 @@ class StatUtils:
         2. P-value heatmap
         3. Significant correlations (p < 0.05)
         """
-
-        # =========================
-        # Compute correlation & p-value
-        # =========================
+       
+        # Compute correlation & p-value       
         corr, pval = StatUtils._compute_corr_pval(df_origin)
 
-        # =========================
-        # Prepare matrices
-        # =========================
+        # Prepare matrices        
         corr, mask = StatUtils._prepare_heatmap(corr)
         pval, _ = StatUtils._prepare_heatmap(pval)
-
-        # =========================
-        # Plot
-        # =========================
+        
+        # Plot        
         cmap = sns.diverging_palette(0, 230, 90, 60, as_cmap=True)
 
         # 1 row, 3 columns
@@ -1329,18 +1323,14 @@ class StatUtils:
 
         It supports mixed numeric and binary features using Pearson and
         point-biserial correlation appropriately.
-        """
-
-        # =========================
-        # Compute correlation & p-value
-        # =========================
+        """        
+        # Compute correlation & p-value        
         corr_train, p_train = StatUtils._compute_corr_pval(df_train)
         corr_origin, p_origin = StatUtils._compute_corr_pval(df_origin)
         corr_test, p_test = StatUtils._compute_corr_pval(df_test)
 
-        # =========================
-        # Prepare matrices for plotting
-        # =========================
+        
+        # Prepare matrices for plotting        
         corr_train, mask_train = StatUtils._prepare_heatmap(corr_train)
         p_train, _ = StatUtils._prepare_heatmap(p_train)
 
@@ -1362,11 +1352,8 @@ class StatUtils:
             (corr_origin, p_origin, mask_origin, origin_name),
         ]
 
-        for col, (corr, pval, mask, title) in enumerate(datasets):
-
-            # =========================
-            # 1. Correlation heatmap
-            # =========================
+        for col, (corr, pval, mask, title) in enumerate(datasets):            
+            # 1. Correlation heatmap            
             sns.heatmap(
                 corr,
                 mask=mask,
@@ -1374,32 +1361,27 @@ class StatUtils:
                 fmt=".2f",
                 cmap=cmap,
                 vmin=-1, vmax=1,
-                linewidths=0.5,
-                linecolor="white",
+                linewidths=0,
+                linecolor="black",
                 ax=ax[0, col]
             )
             ax[0, col].set_title(f"{title} - Correlation", weight="bold")
-
-            # =========================
-            # 2. P-value heatmap
-            # =========================
+            
+            # 2. P-value heatmap            
             sns.heatmap(
                 pval,
                 mask=mask,
                 annot=True,
                 fmt=".3f",
                 cmap=cmap,
-                linewidths=0.5,
-                linecolor="white",
+                linewidths=0,
+                linecolor="black",
                 ax=ax[1, col]
             )
             ax[1, col].set_title(f"{title} - P-value", weight="bold")
-
-            # =========================
-            # 3. Significant correlations only
-            # =========================
+            
+            # 3. Significant correlations only            
             sig = pval < 0.05  # significance threshold
-
             sns.heatmap(
                 corr.where(sig),  # mask non-significant values
                 mask=mask,
@@ -1407,11 +1389,15 @@ class StatUtils:
                 fmt=".2f",
                 cmap=cmap,
                 vmin=-1, vmax=1,
-                linewidths=0.5,
-                linecolor="white",
+                linewidths=0,
+                linecolor="black",
                 ax=ax[2, col]
             )
             ax[2, col].set_title(f"{title} - Significant (p < 0.05)", weight="bold")
+
+        # Disable grid lines for all heatmap axes
+        for axis in ax.flat:
+            axis.grid(False)
 
         plt.tight_layout()
         plt.show()
