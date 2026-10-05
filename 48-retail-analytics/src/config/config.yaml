@@ -1,0 +1,71 @@
+# =========================================================
+# Global configuration
+
+# This file stores all high-level configuration used across
+# the project such as reproducibility, data source settings,
+# dataset information, and default experiment parameters.
+#
+# The configuration is intended to be loaded by the
+# config_loader module and used across training, tuning,
+# and inference pipelines.
+# =========================================================
+
+# Reproducibility
+random_state: 42
+
+# Dataset Configuration
+dataset:
+  # Dataset location
+  name_data:
+    customers: "customers.csv"
+    geography: "geography.csv"
+    inventory: "inventory.csv"
+    order_items: "order_items.csv"
+    orders: "orders.csv"
+    payments: "payments.csv"
+    products: "products.csv"
+    promotions: "promotions.csv"
+    returns: "returns.csv"
+    reviews: "reviews.csv"
+    sales: "sales.csv"
+    shipments: "shipments.csv"
+    web_traffic: "web_traffic.csv"
+
+  name_data_output:
+    dim_products: "dim_products.csv"
+    dim_geography: "dim_geography.csv"
+    dim_promotions: "dim_promotions.csv"
+    fact_orders_enriched: "fact_orders"
+    fact_returns_enriched: "fact_returns"
+    fact_sales_daily: "fact_sales"
+    fact_web: "fact_web"
+    fact_inv: "fact_inv"
+
+  # Dataset display name
+  name: "Retail Analytics Dataset"
+
+# Supported file encodings when loading CSV files
+default_encoding:
+  - "utf-8"
+  - "utf-8-sig"
+  - "cp1252"
+  - "latin1"
+  - "utf-16"
+
+# Train / Test Split Configuration
+split:
+  method: "stratified_shuffle"
+  n_splits: 1
+  test_size: 0.2
+
+# Cross-Validation Configuration
+cv:
+  n_splits: 5
+
+# Visualization Configuration
+colors:
+  - "#667eea"
+  - "#764ba2"
+  - "#a855f7"
+  - "#f093fb"
+  - "#fbc2eb"

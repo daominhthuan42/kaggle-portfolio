@@ -1,0 +1,272 @@
+Project retail_analytics {
+  database_type: "SQL Server"
+  Note: '''
+    Retail Analytics Database
+
+    Source tables:
+    - Orders and order items
+    - Customers and geography
+    - Products and promotions
+    - Payments and shipments
+    - Returns and reviews
+    - Inventory
+    - Web traffic
+    - Daily sales
+  '''
+}
+
+
+// =============================================================
+// Customers
+// =============================================================
+
+Table customers {
+  customer_id int [pk]
+  zip varchar(10)
+  city varchar(100)
+  signup_date date
+  gender varchar(20)
+  age_group varchar(20)
+  acquisition_channel varchar(50)
+}
+
+
+// =============================================================
+// Geography
+// =============================================================
+
+Table geography {
+  zip varchar(10) [pk]
+  city varchar(100)
+  region varchar(50)
+  district varchar(100)
+}
+
+
+// =============================================================
+// Products
+// =============================================================
+
+Table products {
+  product_id int [pk]
+  product_name varchar(200)
+  category varchar(100)
+  segment varchar(100)
+  size varchar(20)
+  color varchar(50)
+  price decimal(18,2)
+  cogs decimal(18,2)
+}
+
+
+// =============================================================
+// Promotions
+// =============================================================
+
+Table promotions {
+  promo_id varchar(50) [pk]
+  promo_name varchar(200)
+  promo_type varchar(50)
+  discount_value decimal(18,2)
+  start_date date
+  end_date date
+  applicable_category varchar(100)
+  promo_channel varchar(50)
+  stackable_flag tinyint
+  min_order_value decimal(18,2)
+}
+
+
+// =============================================================
+// Orders
+// =============================================================
+
+Table orders {
+  order_id int [pk]
+  order_date date
+  customer_id int
+  zip varchar(10)
+  order_status varchar(50)
+  payment_method varchar(50)
+  device_type varchar(50)
+  order_source varchar(50)
+}
+
+
+// =============================================================
+// Order Items
+// =============================================================
+
+Table order_items {
+  order_id int
+  product_id int
+  quantity int
+  unit_price decimal(18,2)
+  discount_amount decimal(18,2)
+  promo_id varchar(50)
+  promo_id_2 varchar(50)
+
+  Indexes {
+    (order_id, product_id) [pk]
+  }
+}
+
+
+// =============================================================
+// Payments
+// =============================================================
+
+Table payments {
+  order_id int [pk]
+  payment_method varchar(50)
+  payment_value decimal(18,2)
+  installments int
+}
+
+
+// =============================================================
+// Shipments
+// =============================================================
+
+Table shipments {
+  order_id int [pk]
+  ship_date date
+  delivery_date date
+  shipping_fee decimal(18,2)
+}
+
+
+// =============================================================
+// Returns
+// =============================================================
+
+Table returns {
+  return_id varchar(50) [pk]
+  order_id int
+  product_id int
+  return_date date
+  return_reason varchar(100)
+  return_quantity int
+  refund_amount decimal(18,2)
+}
+
+
+// =============================================================
+// Reviews
+// =============================================================
+
+Table reviews {
+  review_id varchar(50) [pk]
+  order_id int
+  product_id int
+  customer_id int
+  review_date date
+  rating int
+  review_title varchar(200)
+}
+
+
+// =============================================================
+// Inventory
+// =============================================================
+
+Table inventory {
+  snapshot_date date
+  product_id int
+  stock_on_hand smallint
+  units_received int
+  units_sold int
+  stockout_days int
+  days_of_supply decimal(18,2)
+  fill_rate decimal(8,4)
+  stockout_flag tinyint
+  overstock_flag tinyint
+  reorder_flag tinyint
+  sell_through_rate decimal(8,4)
+  product_name varchar(200)
+  category varchar(100)
+  segment varchar(100)
+  year int
+  month int
+
+  Indexes {
+    (snapshot_date, product_id) [pk]
+  }
+}
+
+
+// =============================================================
+// Web Traffic
+// =============================================================
+
+Table web_traffic {
+  date date
+  sessions int
+  unique_visitors int
+  page_views int
+  bounce_rate decimal(8,5)
+  avg_session_duration_sec decimal(10,2)
+  traffic_source varchar(50)
+
+  Indexes {
+    (date, traffic_source) [pk]
+  }
+}
+
+
+// =============================================================
+// Sales
+// =============================================================
+
+Table sales {
+  Date date [pk]
+  Revenue decimal(18,2)
+  COGS decimal(18,2)
+}
+
+
+// =============================================================
+// Relationships
+// =============================================================
+
+// Customers → Orders
+Ref: customers.customer_id < orders.customer_id
+
+// Geography → Customers
+Ref: geography.zip < customers.zip
+
+// Geography → Orders
+Ref: geography.zip < orders.zip
+
+// Orders → Order Items
+Ref: orders.order_id < order_items.order_id
+
+// Products → Order Items
+Ref: products.product_id < order_items.product_id
+
+// Promotions → Order Items
+Ref: promotions.promo_id < order_items.promo_id
+
+// Orders → Payments
+Ref: orders.order_id - payments.order_id
+
+// Orders → Shipments
+Ref: orders.order_id - shipments.order_id
+
+// Orders → Returns
+Ref: orders.order_id < returns.order_id
+
+// Products → Returns
+Ref: products.product_id < returns.product_id
+
+// Orders → Reviews
+Ref: orders.order_id < reviews.order_id
+
+// Products → Reviews
+Ref: products.product_id < reviews.product_id
+
+// Customers → Reviews
+Ref: customers.customer_id < reviews.customer_id
+
+// Products → Inventory
+Ref: products.product_id < inventory.product_id
